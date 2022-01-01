@@ -106,3 +106,7 @@ vnoremap <Leader>c :Commentary<CR>
 "         \ 'whitelist': ['rust'],
 "         \ })
 " endif
+
+
+" Syntax highlighting for files with strange extensions
+autocmd BufNewFile,BufRead *.lalrpop set syntax=rust
