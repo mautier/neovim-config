@@ -37,8 +37,8 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 " Map Shift-jk to move between buffers.
-nnoremap J :bnext<CR>
-nnoremap K :bprev<CR>
+nnoremap K :bnext<CR>
+nnoremap J :bprev<CR>
 
 " deoplete
 " let g:deoplete#enable_at_startup = 1
