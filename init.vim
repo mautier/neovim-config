@@ -3,6 +3,7 @@
 " Directory for vim-plug plugins.
 call plug#begin('~/.vim/vim-plug')
 
+Plug 'Chiel92/vim-autoformat'
 Plug 'altercation/vim-colors-solarized'
 Plug 'easymotion/vim-easymotion'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
@@ -39,6 +40,10 @@ nnoremap <C-k> <C-w>k
 " Map Shift-jk to move between buffers.
 nnoremap K :bnext<CR>
 nnoremap J :bprev<CR>
+
+" vim-autoformat
+let g:formatterpath = ["/home/gautier/.cargo/bin/rustfmt"]
+nnoremap <F3> :Autoformat<CR>
 
 " deoplete
 " let g:deoplete#enable_at_startup = 1
