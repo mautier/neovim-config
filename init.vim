@@ -42,6 +42,7 @@ nnoremap K :bnext<CR>
 nnoremap J :bprev<CR>
 
 " vim-autoformat
+let g:autoformat_verbosemode=0
 let g:formatterpath = ["/home/gautier/.cargo/bin/rustfmt"]
 nnoremap <F3> :Autoformat<CR>
 
