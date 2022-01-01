@@ -53,6 +53,8 @@ nnoremap <F3> :Autoformat<CR>
 map <Leader> <Plug>(easymotion-prefix)
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
+map <Leader>w <Plug>(easymotion-w)
+map <Leader>b <Plug>(easymotion-b)
 map f <Plug>(easymotion-bd-f2)
 
 " fzf
@@ -77,8 +79,8 @@ nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 
 " Nerdtree
-" b like browse.
-nnoremap <leader>b :NERDTreeToggle<CR>
+" t like tree.
+nnoremap <leader>t :NERDTreeToggle<CR>
 
 " Solarized
 syntax enable
