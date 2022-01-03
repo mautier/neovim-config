@@ -19,19 +19,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 
 " Syntax highlighting and formatting
-function! InstallOrUpgradeTreesitterParsers(info)
-    " info is a dictionary with 3 fields
-    " - name: name of the plugin
-    " - status: 'installed', 'updated', or 'unchanged'
-    " - force: set on PlugInstall! and PlugUpdate!
-    if a:info.status == 'installed' || a:info.force
-        execute "TSInstall python rust dockerfile bash cpp markdown vim lua"
-    else
-        execute "TSUpdate"
-    endif
-endfunction
 " To list all available parsers: :TSInstallInfo
-Plug 'nvim-treesitter/nvim-treesitter', {'do': function('InstallOrUpgradeTreesitterParsers')}
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'ron-rs/ron.vim'
 Plug 'vim-autoformat/vim-autoformat'
 
@@ -73,11 +62,20 @@ nnoremap <leader>t :NERDTreeToggle<CR>
 nnoremap <Leader>c :Commentary<CR>
 vnoremap <Leader>c :Commentary<CR>
 
-"""""""""""""""" Syntax highliting and formatting
+"""""""""""""""" Syntax highlighting and formatting
 " vim-autoformat
 let g:autoformat_verbosemode=0
 let g:formatterpath = ["/home/gautier/.cargo/bin/rustfmt"]
 nnoremap <F3> :Autoformat<CR>
+" nvim-treesitter
+lua <<LUA_EOF
+    require'nvim-treesitter.configs'.setup {
+        ensure_installed = {"python", "rust", "dockerfile", "bash", "cpp", "markdown", "vim", "lua"},
+        highlight = {
+            enable = true,
+        },
+    }
+LUA_EOF
 
 """""""""""""""" Tab- and Status-line
 " lualine & tabline:
