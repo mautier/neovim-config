@@ -20,6 +20,7 @@ Plug 'tpope/vim-surround'
 
 " Syntax highlighting and formatting
 " To list all available parsers: :TSInstallInfo
+Plug 'ntpeters/vim-better-whitespace'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'ron-rs/ron.vim'
 Plug 'vim-autoformat/vim-autoformat'
@@ -63,6 +64,8 @@ nnoremap <Leader>c :Commentary<CR>
 vnoremap <Leader>c :Commentary<CR>
 
 """""""""""""""" Syntax highlighting and formatting
+" vim-better-whitespace
+let g:better_whitespace_enabled = 1
 " vim-autoformat
 let g:autoformat_verbosemode=0
 let g:formatterpath = ["/home/gautier/.cargo/bin/rustfmt"]
