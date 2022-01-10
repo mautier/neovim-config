@@ -40,6 +40,7 @@ Plug 'marko-cerovac/material.nvim', {'branch': 'main'}
 Plug 'phaazon/hop.nvim', {'branch': 'v1'}
 
 " LSP
+Plug 'folke/trouble.nvim'
 Plug 'neovim/nvim-lspconfig'  " This is just helpers for configuring the neovim builtin LSP client.
 Plug 'williamboman/nvim-lsp-installer'
 
@@ -53,6 +54,20 @@ nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+lua <<LUA_EOF
+local actions = require("telescope.actions")
+local trouble = require("trouble.providers.telescope")
+
+require("telescope").setup {
+    defaults = {
+        mappings = {
+            i = { ["<c-t>"] = trouble.open_with_trouble },
+            n = { ["<c-t>"] = trouble.open_with_trouble },
+        },
+    },
+}
+LUA_EOF
 
 """""""""""""""" File browsing
 " Nerdtree
@@ -132,8 +147,10 @@ noremap <Leader>b <cmd>lua require'hop'.hint_words({ direction = require'hop.hin
 noremap <Leader>/ <cmd>HopPattern<cr>
 
 """""""""""""""" LSP
-" nvim-lsp-installer
 lua << LUA_EOF
+-- trouble
+require("trouble").setup {}
+-- nvim-lsp-installer
 local lsp_installer = require("nvim-lsp-installer")
 
 -- Handler that is run for all installed servers.
@@ -186,7 +203,12 @@ function _G.toggle_diagnostics()
     end
 end
 LUA_EOF
+" <leader>d/D for diagnostics
 nnoremap <Leader>D :call v:lua.toggle_diagnostics()<CR>
+nnoremap <Leader>d <cmd>lua vim.diagnostic.open_float()<cr>
+" <leader>l" for LSP
+"   h for hover
+nnoremap <Leader>lh <cmd>lua vim.lsp.buf.hover()<cr>
 
 """"""""""""""""" Other settings
 " The sign column where diagnostic icons show up can flicker, which shifts the
