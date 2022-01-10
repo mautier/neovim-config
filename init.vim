@@ -41,6 +41,7 @@ Plug 'phaazon/hop.nvim', {'branch': 'v1'}
 
 " LSP
 Plug 'neovim/nvim-lspconfig'  " This is just helpers for configuring the neovim builtin LSP client.
+Plug 'williamboman/nvim-lsp-installer'
 
 call plug#end()
 
@@ -129,21 +130,43 @@ map <Leader>w <cmd>HopWord<cr>
 map <Leader>/ <cmd>HopPattern<cr>
 
 """""""""""""""" LSP
-" Builtin LSP, configured with nvim-lspconfig
+" nvim-lsp-installer
 lua << LUA_EOF
-local nvim_lsp = require'lspconfig'
-nvim_lsp.rust_analyzer.setup {
-    settings = {
-        ["rust-analyzer"] = {
-            cargo = {
-                loadOutDirsFromCheck = true,
-            },
-            procMacro = {
-                enable = true,
-            },
+local lsp_installer = require("nvim-lsp-installer")
+
+-- Handler that is run for all installed servers.
+lsp_installer.on_server_ready(function(server)
+    local opts = {}
+
+    if server.name == "rust_analyzer" then
+        opts.settings = {
+            ["rust-analyzer"] = {
+                cargo = {
+                    loadOutDirsFromCheck = true,
+                },
+                procMacro = {
+                    enable = true,
+                },
+            }
         }
-    },
-}
+    end
+
+    -- This setup() function is exactly the same as lspconfig's setup function.
+    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+    server:setup(opts)
+end)
+
+-- Now install the servers we want.
+local lsp_installer_servers = require("nvim-lsp-installer.servers")
+for _i, name in ipairs({"jedi_language_server", "rust_analyzer"}) do
+    local is_available, server = lsp_installer_servers.get_server(name)
+    if not is_available then
+        error("Server " .. name .. " is not available. Typo?")
+    end
+    if not server:is_installed() then
+        server:install()
+    end
+end
 
 -- Key to enable / disable diagnostics.
 -- LSP diagnostics can be distracting when they change every time I exit insert mode.
@@ -152,11 +175,11 @@ vim.g.diagnostics_visible = true
 function _G.toggle_diagnostics()
     if vim.g.diagnostics_visible then
         vim.g.diagnostics_visible = false
-        vim.lsp.diagnostic.disable()
+        vim.diagnostic.disable()
         print("Disabled diagnostics.")
     else
         vim.g.diagnostics_visible = true
-        vim.lsp.diagnostic.enable()
+        vim.diagnostic.enable()
         print("Enabled diagnostics.")
     end
 end
