@@ -124,10 +124,12 @@ colorscheme nightfox
 " Use in priority keys from the home row on my dvorak keyboard, and then
 " others further away.
 lua require'hop'.setup { keys = 'uhidetonaspgyfcrlxbkmjwqvz' }
-map f <cmd>HopChar2<cr>
-map <Leader>j <cmd>HopLine<cr>
-map <Leader>w <cmd>HopWord<cr>
-map <Leader>/ <cmd>HopPattern<cr>
+noremap f <cmd>HopChar2<cr>
+noremap <Leader>j <cmd>lua require'hop'.hint_lines({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR })<cr>
+noremap <Leader>k <cmd>lua require'hop'.hint_lines({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR })<cr>
+noremap <Leader>w <cmd>lua require'hop'.hint_words({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR })<cr>
+noremap <Leader>b <cmd>lua require'hop'.hint_words({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR })<cr>
+noremap <Leader>/ <cmd>HopPattern<cr>
 
 """""""""""""""" LSP
 " nvim-lsp-installer
